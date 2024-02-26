@@ -1,0 +1,83 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\ClientRequest;
+use App\Models\Client;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
+class ClientsController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:create-clients|edit-clients|delete-clients', ['only' => ['index','show']]);
+        $this->middleware('permission:create-clients', ['only' => ['create','store']]);
+        $this->middleware('permission:edit-clients', ['only' => ['edit','update']]);
+        $this->middleware('permission:delete-clients', ['only' => ['destroy']]);
+    }
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        //
+        return view('client.index', [
+            'clients' => Client::latest()->paginate(3)
+        ]);
+    }
+    public function create()
+    {
+        return view('client.create');
+    }
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(ClientRequest $request)
+    {
+        //
+        Client::create($request->all());
+        return redirect()->route('client.index')
+            ->withSuccess('New client is added successfully.');
+    }
+    public function show(Client $client)
+    {
+        return view('client.show', [
+            'client' => $client
+        ]);
+    }
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Client $client)
+    {
+        //
+        return view('client.edit', [
+            'client' => $client
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(ClientRequest $request, Client $client)
+    {
+        //
+            $client->update($request->all());
+            return redirect()->route('client.index')
+                ->withSuccess('Clients is updated successfully.');
+
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Client $clients)
+    {
+        //
+        $clients->delete();
+        return redirect()->route('client.index')
+            ->withSuccess('Clients is deleted successfully.');
+    }
+}
