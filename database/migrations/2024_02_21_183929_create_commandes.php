@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('commandes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('clients_id')->constrained('clients')->cascadeOnDelete();
-            $table->foreignId('produits_id')->constrained('produits')->cascadeOnDelete();
-            $table->integer('quantite');
             $table->string('date');
             $table->timestamps();
         });

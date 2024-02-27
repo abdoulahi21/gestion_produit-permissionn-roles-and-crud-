@@ -24,9 +24,9 @@ class CommandesController extends Controller
     public function index()
     {
         //
-        $commande=Commande::latest()->paginate(1);
+
         return view('commande.index',[
-         'commande' => $commande]);
+         'commande' => Commande::latest()->paginate(3)]);
     }
 
     /**
@@ -48,9 +48,14 @@ class CommandesController extends Controller
     public function store(CommandeRequest $request)
     {
         //
-        Commande::create($request->all());
+        $commande = Commande::create($request->all());
+           $commande->produits()->attach($request->input('produits_id'),
+            ['quantite' => $request->input('quantite')]);
+
+
         return redirect()->route('commande.index')
-            ->withSuccess('New commande is added successfully.');
+            ->withSuccess('New order is added successfully.');
+
     }
 
     /**

@@ -23,12 +23,13 @@
                 @forelse ($produit as $product)
                     <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
+                        <td>
                         @if($product->photo)
-                            <img src="{{ asset('storage/images/'.$product->photo) }}" style="height: 50px;width:100px;">
+                            <img src="{{ asset('storage/images/'.$product->photo) }}" style="height: 50px;width:50px;">
                         @else
                             <span>No image found!</span>
                         @endif
-
+                        </td>
                         <td>{{ $product->nom}}</td>
                         <td>{{ $product->description }}</td>
                         <td>{{ $product->prix}}</td>

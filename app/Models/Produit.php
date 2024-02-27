@@ -17,12 +17,13 @@ class Produit extends Model
         'categories_id'
     ];
 
-    public function clients()
+    public function categorie()
     {
-        return $this->belongsToMany(Client::class,'commandes');
+        return $this->belongsTo(Categories::class, 'categories_id');
     }
-    public function categories()
+
+    public function commandes()
     {
-        return $this->belongsTo(Categories::class,'categories_id');
+        return $this->belongsToMany(Commande::class)->withPivot('quantite');
     }
 }

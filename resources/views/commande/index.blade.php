@@ -10,10 +10,10 @@
 
 
     <div>
-        <strong>Nom Prenom:</strong>{{$commande->clients->nom}} {{$commande->clients->prenom}}<br>
-        <strong>Adresse:</strong>{{$commande->clients->adresse}}<br>
-        <strong>Téléphone:</strong>{{$commande->clients->numeroTelephone}}<br>
-        <strong>Date de commande:</strong>{{$commande->date}}<br>
+        <strong>Nom Prenom:</strong>{{$cm->clients->nom}} {{$cm->clients->prenom}}<br>
+        <strong>Adresse:</strong>{{$cm->clients->adresse}}<br>
+        <strong>Téléphone:</strong>{{$cm->clients->numeroTelephone}}<br>
+        <strong>Date de commande:</strong>{{$cm->date}}<br>
     </div>
     <br>
     <table>
@@ -27,9 +27,9 @@
         </thead>
         <tbody>
         <tr>
-            <td>{{$commande->produits->nom}}</td>
-            <td>{{$commande->produits->prix}}Fcfa</td>
-            <td>x{{$commande->produits->quantite}}</td>
+            <td>{{$cm->produits->nom}}</td>
+            <td>{{$cm->produits->prix}}Fcfa</td>
+            <td>x{{$cm->produits->quantite}}</td>
             <td>20 €</td>
         </tr>
         <tr>
@@ -39,6 +39,7 @@
         </tbody>
     </table>
     @endforeach
+    {{ $commande->links() }}
 @endsection
 <style>
     table {

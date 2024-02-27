@@ -24,6 +24,6 @@ class Client extends Model
     }
     public function commandes()
     {
-        return $this->belongsToMany(Commande::class,'commandes');
+        return $this->hasMany(Commande::class);
     }
 }

@@ -45,7 +45,7 @@ class ProduitsController extends Controller
         $fileName = time() . '.' . $request->photo->extension();
         $request->photo->storeAs('public/images', $fileName);
 
-        $produit = new Produit();
+        /*$produit = new Produit();
         $produit->nom = $request->input('nom');
         $produit->description = trim($request->input('description'));
         $produit->prix = bcrypt($request->input('prix'));
@@ -53,7 +53,15 @@ class ProduitsController extends Controller
         $produit->photo = $fileName;
         $produit->categories_id=bcrypt($request->input('categories_id'));
         $produit->save();
-
+  */
+        Produit::create([
+            'nom' => $request->input('nom'),
+            'description' => trim($request->input('description')),
+            'prix' => $request->input('prix'),
+            'quantite' => $request->input('quantite'),
+            'photo' => $fileName,
+            'categories_id'=>$request->input('categories_id')
+        ]);
         return redirect()->route('produit.index')
             ->withSuccess('New product is added successfully.');
     }

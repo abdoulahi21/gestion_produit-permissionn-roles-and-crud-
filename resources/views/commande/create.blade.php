@@ -21,20 +21,20 @@
                         <!-- Conteneur pour les détails des produits -->
                         <div id="product-details">
                             <div class="mb-3 row">
-                                <label for="categories_id" class="col-md-4 col-form-label text-md-end text-start">Full Name</label>
+                                <label for="nom" class="col-md-4 col-form-label text-md-end text-start">Full Name</label>
                                 <div class="col-md-3">
-                                    <select type="number" class="form-control @error('') is-invalid @enderror" id="" name="">
+                                    <select  class="form-control @error('') is-invalid @enderror" id="" name="clients_id">
                                         <option>choose...</option>
                                       @foreach($clients as $client)
                                           <option value="{{$client->id}}">{{$client->nom}} {{$client->prenom}}</option>
                                       @endforeach
                                     </select>
-                                    @if ($errors->has('full name'))
-                                        <span class="text-danger">{{ $errors->first('full name') }}</span>
+                                    @if ($errors->has('nom'))
+                                        <span class="text-danger">{{ $errors->first('nom') }}</span>
                                     @endif
                                 </div>
                                 <div class="col-md-3">
-                                   <input type="date" name="date" class="form-control @error('photo') is-invalid @enderror">
+                                   <input type="date" name="date" class="form-control @error('date') is-invalid @enderror">
                                     @if ($errors->has('date'))
                                         <span class="text-danger">{{ $errors->first('date') }}</span>
                                     @endif
@@ -42,13 +42,13 @@
                             </div>
                             <!-- Champs pour le premier produit -->
                             <div class="product">
-                                <select type="text" class="@error('') is-invalid @enderror" >
+                                <select  class="@error('') is-invalid @enderror"  name="produits_id">
                                     <option>Nom Produit</option>
                                     @foreach($produits as $p )
                                         <option value="{{$p->id}}">{{$p->nom}}</option>
                                     @endforeach
                                 </select>
-                                <input type="number" name="products[0][quantite]" placeholder="Quantité">
+                                <input type="number" name="quantite" placeholder="Quantité">
 
                                 <!-- Autres champs pour les détails du produit -->
                                 <button type="button" class="remove-product btn btn-danger"><i class="bi bi-trash"></i> </button>

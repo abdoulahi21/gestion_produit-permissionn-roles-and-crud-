@@ -14,12 +14,13 @@ class Commande extends Model
         'quantite',
         'date',
     ];
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
+
     public function produits()
     {
-        return $this->belongsToMany(Produit::class,'commandes');
-    }
-    public function clients()
-    {
-        return $this->belongsToMany(Client::class,'clients');
+        return $this->belongsToMany(Produit::class)->withPivot('quantite');
     }
 }

@@ -26,7 +26,7 @@ class PermissionSeeder extends Seeder
             'create-clients',
             'edit-clients',
             'delete-clients',
-             'create-categories',
+            'create-categories',
             'delete-categories',
             'create-commandes',
             'delete-commandes',
