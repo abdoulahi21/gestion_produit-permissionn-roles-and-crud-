@@ -50,22 +50,22 @@
                         @endif
                     @else
                         @canany(['create-role', 'edit-role', 'delete-role'])
-                            <li><a class="nav-link" href="{{ route('roles.index') }}"><span style="color: white;">Manage Roles</span></a></li>
+                            <li><a class="nav-link" href="{{ route('roles.index') }}"><span style="color: white;">Roles</span></a></li>
                         @endcanany
                         @canany(['create-user', 'edit-user', 'delete-user'])
-                            <li><a class="nav-link" href="{{ route('users.index') }}"><span style="color: white;">Manage Users</span></a></li>
+                            <li><a class="nav-link" href="{{ route('users.index') }}"><span style="color: white;"> Users</span></a></li>
                         @endcanany
                         @canany(['create-produit', 'edit-produit', 'delete-produit'])
-                            <li><a class="nav-link" href="{{ route('produit.index') }}"><span style="color: white;">Manage Products</span></a></li>
+                            <li><a class="nav-link" href="{{ route('produit.index') }}"><span style="color: white;"> Products</span></a></li>
                         @endcanany
                             @canany(['create-categories',  'delete-categories'])
-                                <li><a class="nav-link" href="{{ route('categorie.index') }}"><span style="color: white;">Manage Categoris</span></a></li>
+                                <li><a class="nav-link" href="{{ route('categorie.index') }}"><span style="color: white;"> Categoris</span></a></li>
                             @endcanany
                         @canany(['create-clients', 'edit-clients', 'delete-clients'])
-                            <li><a class="nav-link" href="{{ route('client.index') }}"><span style="color: white;">Manage Clients</span></a></li>
+                            <li><a class="nav-link" href="{{ route('client.index') }}"><span style="color: white;"> Clients</span></a></li>
                         @endcanany
                             @canany(['create-commandes', 'edit-commandes', 'delete-commandes'])
-                                <li><a class="nav-link" href="{{ route('commande.index') }}"><span style="color: white;">Manage Commandes</span></a></li>
+                                <li><a class="nav-link" href="{{ route('commande.index') }}"><span style="color: white;"> Commandes</span></a></li>
                             @endcanany
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle bg" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

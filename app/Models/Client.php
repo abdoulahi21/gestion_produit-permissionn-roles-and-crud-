@@ -18,12 +18,12 @@ class Client extends Model
         'numeroTelephone',
         'sexe',
         ];
-    public function produits()
-    {
-        return $this->belongsToMany(Produit::class,'produits');
-    }
+
     public function commandes()
     {
         return $this->hasMany(Commande::class);
     }
+
+
+
 }

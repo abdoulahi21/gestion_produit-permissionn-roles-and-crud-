@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ModelProduitCommande extends Model
+class ProduitCommande extends Model
 {
     use HasFactory;
     protected $fillable=[
@@ -13,4 +13,14 @@ class ModelProduitCommande extends Model
         'produits_id',
         'quantite',
     ];
+
+    public function produits()
+    {
+        return $this->belongsToMany(Produit::class,'produits');
+    }
+    public function commandes()
+    {
+        return $this->hasMany(Commande::class);
+    }
+
 }

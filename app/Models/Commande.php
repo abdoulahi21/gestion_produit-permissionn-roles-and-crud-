@@ -10,8 +10,6 @@ class Commande extends Model
     use HasFactory;
     protected $fillable=[
         'clients_id',
-        'produits_id',
-        'quantite',
         'date',
     ];
     public function client()
@@ -22,5 +20,16 @@ class Commande extends Model
     public function produits()
     {
         return $this->belongsToMany(Produit::class)->withPivot('quantite');
+    }
+
+    public function calculerMontantTotal()
+    {
+        $montantTotal = 0;
+
+        foreach ($this->produits as $produit) {
+            $montantTotal += $produit->prix * $produit->pivot->quantite;
+        }
+
+        return $montantTotal;
     }
 }

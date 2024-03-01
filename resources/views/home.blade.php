@@ -1,38 +1,69 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">{{ __('Dashboard') }}</div>
-
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
-                        {{ __('You are logged in!') }}
-
-                        <p>This is your application dashboard.</p>
-                        @canany(['create-role', 'edit-role', 'delete-role'])
-                            <a class="btn btn-primary" href="{{ route('roles.index') }}">
-                                <i class="bi bi-person-fill-gear"></i> Manage Roles</a>
-                        @endcanany
-                        @canany(['create-user', 'edit-user', 'delete-user'])
-                            <a class="btn btn-success" href="{{ route('users.index') }}">
-                                <i class="bi bi-people"></i> Manage Users</a>
-                        @endcanany
-                        @canany(['create-produit', 'edit-produit', 'delete-produit'])
-                            <a class="btn btn-warning" href="{{ route('produit.index') }}">
-                                <i class="bi bi-bag"></i> Manage Products</a>
-                        @endcanany
-                        <p>&nbsp;</p>
+    @canany('view-dashbord')
+        <div class="container">
+            <h1>Tableau de bord</h1>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Nombre total de clients</h5>
+                            <p class="card-text">{{ $totalClients }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card bg-danger text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Nombre total de produits</h5>
+                            <p class="card-text">{{ $totalProduits }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Répartition des clients par sexe</h5>
+                            <canvas id="chartSexe"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            var ctx = document.getElementById('chartSexe').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Masculin', 'Féminin'],
+                    datasets: [{
+                        label: 'Nombre de clients',
+                        data: [{{ $nbClientsMasculin }}, {{ $nbClientsFeminin }}],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+    @endcanany
+
 @endsection

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ClientsExport;
 use App\Http\Requests\ClientRequest;
+use App\Imports\ClientsImport;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ClientsController extends Controller
 {
@@ -73,11 +76,26 @@ class ClientsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Client $clients)
+    public function destroy(string $id)
     {
         //
+        $clients=Client::find($id);
         $clients->delete();
         return redirect()->route('client.index')
             ->withSuccess('Clients is deleted successfully.');
+    }
+    public function export()
+    {
+        return Excel::download(new ClientsExport(), 'clients.xlsx');
+    }
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function import()
+    {
+        Excel::import(new ClientsImport(),request()->file('file'));
+
+        return back();
     }
 }

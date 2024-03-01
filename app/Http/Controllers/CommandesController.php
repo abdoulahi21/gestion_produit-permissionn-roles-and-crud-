@@ -24,9 +24,9 @@ class CommandesController extends Controller
     public function index()
     {
         //
-
+         $commandes = Commande::latest()->paginate(3);
         return view('commande.index',[
-         'commande' => Commande::latest()->paginate(3)]);
+         'commandes' => $commandes,]);
     }
 
     /**
@@ -48,16 +48,18 @@ class CommandesController extends Controller
     public function store(CommandeRequest $request)
     {
         //
-        $commande = Commande::create($request->all());
-           $commande->produits()->attach($request->input('produits_id'),
-            ['quantite' => $request->input('quantite')]);
-
-
-        return redirect()->route('commande.index')
-            ->withSuccess('New order is added successfully.');
-
+        $commande=Commande::create([
+            'clients_id'=>$request->clients_id,
+            'date'=>$request->date,
+        ]);
+        $commande->produits()->attach($request->produits_id,['quantite'=>$request->quantite]);
+        foreach ($request->input('produits') as $produitId => $quantite) {
+            $produit = Produit::find($produitId);
+            $produit->quantite-= $quantite;
+            $produit->save();
+        }
+        return redirect()->route('commande.index')->with('success','Commande enregistrée avec succès');
     }
-
     /**
      * Display the specified resource.
      */
@@ -88,5 +90,8 @@ class CommandesController extends Controller
     public function destroy(string $id)
     {
         //
+        $commme=Commande::find($id);
+        $commme->delete();
+        return to_route('commande.index')->with('success','Commande suprimmée avec succès');
     }
 }

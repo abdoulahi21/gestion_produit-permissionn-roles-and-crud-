@@ -2,11 +2,18 @@
 
 @section('content')
     <div class="card shadow-lg p-3 mb-5 bg-body-tertiary">
+        <form action="{{ route('produit.import') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <input type="file" name="file" class="form-control">
+            <br>
+            <button class="btn btn-success">Import Produit Data</button>
+        </form>
         <div class="card-header">Product List</div>
         <div class="card-body">
             @can('create-produit')
                 <a href="{{ route('produit.create') }}" class="btn btn-success btn-sm my-2"><i class="bi bi-plus-circle"></i> Add New Product</a>
             @endcan
+                <a class="btn btn-warning float-end" href="{{ route('produit.export') }}">Export Produit Data</a>
             <table class="table table-striped table-bordered">
                 <thead>
                 <tr>
