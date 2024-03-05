@@ -25,17 +25,13 @@
             </tr>
             </thead>
             <tbody>
-            @foreach ($commande->produits as $produit)
+            @foreach($commande->produits as $produit)
                 <tr>
-                    <td>{{ $produit->nom }}</td>
+                    <td >{{ $produit->nom }}</td>
                     <td>{{ $produit->prix }}</td>
-                    <td>{{ $produit->pivot->quantite }}</td>
+                    <td>{{ $produit->produits_commandes->quantite }}</td>
                 </tr>
             @endforeach
-            <tr>
-                <td colspan="3" style="text-align: right;"><strong>Total:</strong></td>
-                <td><strong>{{ $commande->calculerMontantTotal() }}</strong></td>
-            </tr>
             </tbody>
         </table>
         <br>

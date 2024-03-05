@@ -26,17 +26,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $totalClients = Client::count();
-        $totalProduits = Produit::count();
-        $nbClientsMasculin = Client::where('sexe', 'Masculin')->count();
-        $nbClientsFeminin = Client::where('sexe', 'Feminin')->count();
 
-        return view('home', [
-            'totalClients' => $totalClients,
-            'totalProduits' => $totalProduits,
-            'nbClientsMasculin' => $nbClientsMasculin,
-            'nbClientsFeminin' => $nbClientsFeminin,
-        ]);
+        return view('home');
 
     }
 }

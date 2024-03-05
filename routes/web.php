@@ -35,4 +35,4 @@ Route::post('/produit-import',  [App\Http\Controllers\ProduitsController::class,
 
 Route::get('/client-export', [App\Http\Controllers\ClientsController::class,'export'])->name('client.export');
 Route::post('/client-import',  [App\Http\Controllers\ClientsController::class,'import'])->name('client.import');
-
+Route::get('/dashbord',[App\Http\Controllers\DashbordController::class,'index'])->name('dashbord');

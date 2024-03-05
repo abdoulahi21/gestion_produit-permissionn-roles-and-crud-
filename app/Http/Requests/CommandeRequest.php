@@ -24,10 +24,11 @@ class CommandeRequest extends FormRequest
     {
         return [
             //
-            'clients_id'=>'required',
-            'produits_id'=>'required',
-            'quantite'=>'required',
-            'date'=>'required',
+            ' clients_id' => 'required|exists:clients,id',
+            'date' => 'required',
+            'products' => 'required|array',
+            'quantite' => 'required|array',
+
         ];
     }
 }

@@ -113,9 +113,19 @@ class ProduitsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Produit $produit)
+    public function destroy(string $id)
     {
-        $produit->delete();
+
+        $produits= Produit::find($id);
+        // Vérifier si l'étudiant exist
+        if (!$produits) {
+            return redirect()->route('produit.index')->with('error', 'Étudiant non trouvé');
+        }
+        // Supprimer l'image associée s'il y en a une
+        if ($produits->photo) {
+            Storage::delete('public/images/' . $produits->photo);
+        }
+
         return redirect()->route('produit.index')
             ->withSuccess('Product is deleted successfully.');
     }
@@ -126,7 +136,7 @@ class ProduitsController extends Controller
     }
 
     /**
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function import()
     {

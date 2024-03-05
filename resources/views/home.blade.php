@@ -1,69 +1,68 @@
 @extends('layouts.app')
-
 @section('content')
-    @canany('view-dashbord')
-        <div class="container">
-            <h1>Tableau de bord</h1>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card bg-success text-white">
-                        <div class="card-body">
-                            <h5 class="card-title">Nombre total de clients</h5>
-                            <p class="card-text">{{ $totalClients }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card bg-danger text-white">
-                        <div class="card-body">
-                            <h5 class="card-title">Nombre total de produits</h5>
-                            <p class="card-text">{{ $totalProduits }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Répartition des clients par sexe</h5>
-                            <canvas id="chartSexe"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<section class="home1">
+    <div class="max-width">
+        <div class="slide">
+            <div class="slideshow-container">
 
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
-            var ctx = document.getElementById('chartSexe').getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Masculin', 'Féminin'],
-                    datasets: [{
-                        label: 'Nombre de clients',
-                        data: [{{ $nbClientsMasculin }}, {{ $nbClientsFeminin }}],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+                <div class="mySlides fade">
+
+                    <img src="" style="width:100%">
+
+                </div>
+
+                <div class="mySlides fade">
+
+                    <img src="sliderKalpé_0.png" style="width:100%">
+
+                </div>
+
+            </div>
+            <br>
+            <div style="text-align:center">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+
+            <script>
+                var slideIndex = 0;
+                showSlides();
+
+                function showSlides() {
+                    var i;
+                    var slides = document.getElementsByClassName("mySlides");
+                    var dots = document.getElementsByClassName("dot");
+                    for (i = 0; i < slides.length; i++) {
+                        slides[i].style.display = "none";
                     }
+                    slideIndex++;
+                    if (slideIndex > slides.length) {slideIndex = 1}
+                    for (i = 0; i < dots.length; i++) {
+                        dots[i].className = dots[i].className.replace(" active", "");
+                    }
+                    slides[slideIndex-1].style.display = "block";
+                    dots[slideIndex-1].className += " active";
+                    setTimeout(showSlides, 4000); // Change image every 3 seconds
                 }
-            });
-        </script>
-    @endcanany
+            </script>
 
+        </div>
+    </div>
+</section>
+
+<section class="home10">
+
+</section>
 @endsection
+<style>
+    .home1 .max-width .slide img{
+        height:500px;
+        width:1200px;
+        width:100%;
+        object-fit: cover;
+
+    }
+
+
+</style>

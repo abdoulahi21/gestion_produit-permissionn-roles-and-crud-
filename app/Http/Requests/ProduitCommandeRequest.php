@@ -23,7 +23,7 @@ class ProduitCommandeRequest extends FormRequest
     {
         return [
             //
-            'commandes_id'=>'required', // 'clients_id'=>'required', // 'produits_id'=>'required', // 'quantite'=>'required',
+            'commande_id'=>'required', // 'clients_id'=>'required', // 'produits_id'=>'required', // 'quantite'=>'required',
             'produits_id'=>'required',
             'quantite'=>'required',
 

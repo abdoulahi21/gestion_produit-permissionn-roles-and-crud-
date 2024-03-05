@@ -14,12 +14,12 @@ class Commande extends Model
     ];
     public function client()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(Client::class, 'clients_id');
     }
 
     public function produits()
     {
-        return $this->belongsToMany(Produit::class)->withPivot('quantite');
+        return $this->belongsToMany(Produit::class,'produits_commandes','commande_id','produits_id')->withPivot('quantite');
     }
 
     public function calculerMontantTotal()
@@ -32,4 +32,5 @@ class Commande extends Model
 
         return $montantTotal;
     }
+
 }

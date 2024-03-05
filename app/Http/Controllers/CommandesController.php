@@ -6,6 +6,7 @@ use App\Http\Requests\CommandeRequest;
 use App\Models\Client;
 use App\Models\Commande;
 use App\Models\Produit;
+use App\Models\ProduitCommande;
 use Illuminate\Http\Request;
 
 class CommandesController extends Controller
@@ -24,9 +25,13 @@ class CommandesController extends Controller
     public function index()
     {
         //
+         $clients=Client::all();
+         $produits=Produit::all();
          $commandes = Commande::latest()->paginate(3);
         return view('commande.index',[
-         'commandes' => $commandes,]);
+         'commandes' => $commandes,
+            'clients'=>$clients,
+         'produits'=>$produits,]);
     }
 
     /**
@@ -45,21 +50,33 @@ class CommandesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CommandeRequest $request)
+   public function store(CommandeRequest $request)
     {
-        //
-        $commande=Commande::create([
-            'clients_id'=>$request->clients_id,
-            'date'=>$request->date,
+        Commande::create($request->all());
+        // Créer une nouvelle commande
+        $commande = Commande::create([
+            'clients_id' => $request->clients_id,
+            'date' => $request->date,
         ]);
-        $commande->produits()->attach($request->produits_id,['quantite'=>$request->quantite]);
-        foreach ($request->input('produits') as $produitId => $quantite) {
+
+       /*$commande->produits()->attach($request->input('produits_id'),
+           ['quantite'=>$request->input('quantite')]);
+       */
+       // Attacher les produits à la commande avec leurs quantités
+       foreach ($request->produits as $key => $produitId) {
+            $commande->produits()->attach($produitId, ['quantite' => $request->input('quantite')[ $key]]);
+
+            // Mettre à jour la quantité du produit
             $produit = Produit::find($produitId);
-            $produit->quantite-= $quantite;
+            $produit->quantite -= $request->input('quantite')[ $key];
             $produit->save();
         }
-        return redirect()->route('commande.index')->with('success','Commande enregistrée avec succès');
+
+        return redirect()->route('commande.index')->with('success', 'Commande enregistrée avec succès');
     }
+
+
+
     /**
      * Display the specified resource.
      */
@@ -82,6 +99,7 @@ class CommandesController extends Controller
     public function update(Request $request, string $id)
     {
         //
+
     }
 
     /**
