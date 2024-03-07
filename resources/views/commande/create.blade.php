@@ -68,7 +68,7 @@
         newProduct.classList.add('product');
         newProduct.innerHTML = `
            <label for="">Nom Produit</label>
-           <select name="products[${productIndex}][product_id]">
+           <select name="products[${productIndex}][nom]">
                 ${options}
            </select>
             <label for="">Quantite</label>

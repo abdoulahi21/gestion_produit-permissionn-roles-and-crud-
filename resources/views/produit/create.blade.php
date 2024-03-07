@@ -20,7 +20,7 @@
 
 
                         <div class="mb-3 row">
-                            <label for="nom" class="col-md-4 col-form-label text-md-end text-start">Name</label>
+                            <label for="nom" class="col-md-4 col-form-label text-md-end text-start">Photo</label>
                             <div class="col-md-6">
                                 <input type="file" class="form-control @error('photo') is-invalid @enderror" id="photo" name="photo" value="{{ old('photo') }}">
                                 @if ($errors->has('photo'))

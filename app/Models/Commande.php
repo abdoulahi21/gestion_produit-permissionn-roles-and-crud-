@@ -19,7 +19,8 @@ class Commande extends Model
 
     public function produits()
     {
-        return $this->belongsToMany(Produit::class,'produits_commandes','commande_id','produits_id')->withPivot('quantite');
+        return $this->belongsToMany(Produit::class,'produits_commandes',
+            'commande_id','produits_id')->withPivot('quantite');
     }
 
     public function calculerMontantTotal()

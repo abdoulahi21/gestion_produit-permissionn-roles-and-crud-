@@ -14,13 +14,12 @@ class ProduitCommande extends Model
         'quantite',
     ];
 
-    public function produits()
-    {
-        return $this->belongsToMany(Produit::class,'produits');
+    public function produits(){
+        return $this->belongsTo(Produit::class);
     }
-    public function commandes()
-    {
-        return $this->hasMany(Commande::class);
+    public function commande(){
+        return $this->belongsTo(Commande::class);
     }
+
 
 }

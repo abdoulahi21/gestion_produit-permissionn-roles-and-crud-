@@ -84,28 +84,37 @@ class ProduitsController extends Controller
      */
     public function edit(Produit $produit)
     {
-        return view('products.edit', [
-            'produit' => $produit
+        $categorie=Categories::all();
+        return view('produit.edit', [
+            'produit' => $produit,
+            'categorie'=>$categorie
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProduitRequest $request, Produit $produit)
+    public function update(ProduitRequest $request)
     {
-        $produit->update($request->all());
+        $produit=Produit::find($request->id);
         $imageName = '';
         if ($request->hasFile('photo')) {
             $imageName = time() . '.' . $request->photo->extension();
             $request->photo->storeAs('public/images', $imageName);
             if ($produit->photo) {
-                Storage::delete('public/images/' . $produit->phoyo);
+                Storage::delete('public/images/' . $produit->photo);
             }
         } else {
             $imageName = $produit->photo;
         }
-        $produit->photo=$imageName;
+        Produit::create([
+            'nom' => $request->input('nom'),
+            'description' => trim($request->input('description')),
+            'prix' => $request->input('prix'),
+            'quantite' => $request->input('quantite'),
+            'photo' => $imageName,
+            'categories_id'=>$request->input('categories_id')
+        ]);
         return redirect()->route('produit.index')
             ->withSuccess('Product is updated successfully.');
     }
@@ -117,14 +126,16 @@ class ProduitsController extends Controller
     {
 
         $produits= Produit::find($id);
-        // Vérifier si l'étudiant exist
         if (!$produits) {
-            return redirect()->route('produit.index')->with('error', 'Étudiant non trouvé');
+            return redirect()->route('produit.index')->with('error', 'produit non trouvé');
         }
         // Supprimer l'image associée s'il y en a une
         if ($produits->photo) {
             Storage::delete('public/images/' . $produits->photo);
         }
+        // Supprimer l'étudiant
+        $produits->delete();
+
 
         return redirect()->route('produit.index')
             ->withSuccess('Product is deleted successfully.');
@@ -142,6 +153,6 @@ class ProduitsController extends Controller
     {
         Excel::import(new ProduitssImport(),request()->file('file'));
 
-        return back();
+        return back()->withSuccess('Produit is import  successefuly');
     }
 }

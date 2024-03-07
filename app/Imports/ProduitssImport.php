@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Models\Produit;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -22,11 +23,11 @@ class ProduitssImport implements ToModel, WithHeadingRow,WithCalculatedFormulas
         // Récupérer le fichier photo
         $photo = $row['photo'];
         if ($photo) {
-            $photoPath = Storage::disk('public')->putFile('images', new UploadedFile($photo, $photo->getClientOriginalName()));
+            $photoPath = $photo->store('images', 'public');
         } else {
             $photoPath = null;
         }
-        return new User([
+        return new Produit([
             'nom'     => $row['nom'],
             'description'    => $row['description'],
             'prix'    => $row['prix'],

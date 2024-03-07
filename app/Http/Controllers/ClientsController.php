@@ -6,6 +6,7 @@ use App\Exports\ClientsExport;
 use App\Http\Requests\ClientRequest;
 use App\Imports\ClientsImport;
 use App\Models\Client;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
@@ -96,6 +97,26 @@ class ClientsController extends Controller
     {
         Excel::import(new ClientsImport(),request()->file('file'));
 
-        return back();
+        return back()->withSuccess('Client is import  successefuly');
     }
+    public function downloadPDF()
+    {
+        $clients = Client::all();
+
+        $pdf = PDF::loadView('client.clientPdf', array('clients' =>  $clients))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->download('clients-details.pdf');
+    }
+    public function viewPDF()
+    {
+        $clients = Client::all();
+
+        $pdf = PDF::loadView('client.clientPdf', array('clients' =>  $clients))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->stream();
+
+    }
+
 }

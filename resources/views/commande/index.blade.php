@@ -29,7 +29,7 @@
                 <tr>
                     <td >{{ $produit->nom }}</td>
                     <td>{{ $produit->prix }}</td>
-                    <td>{{ $produit->produits_commandes->quantite }}</td>
+                    <td>{{ $produit->pivot->quantite }}</td>
                 </tr>
             @endforeach
             </tbody>

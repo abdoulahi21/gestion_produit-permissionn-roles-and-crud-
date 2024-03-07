@@ -50,30 +50,28 @@ class CommandesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-   public function store(CommandeRequest $request)
+    public function store(Request $request)
     {
-        Commande::create($request->all());
-        // Créer une nouvelle commande
-        $commande = Commande::create([
-            'clients_id' => $request->clients_id,
-            'date' => $request->date,
+        $request->validate([
+            'clients_id' => 'required|exists:clients,id',
+            'date' => 'required',
+            'products' => 'required|array',
+            'products.*.nom' => 'required|exists:produits,id',
+            'products.*.quantite' => 'required|integer|min:1',
         ]);
 
-       /*$commande->produits()->attach($request->input('produits_id'),
-           ['quantite'=>$request->input('quantite')]);
-       */
-       // Attacher les produits à la commande avec leurs quantités
-       foreach ($request->produits as $key => $produitId) {
-            $commande->produits()->attach($produitId, ['quantite' => $request->input('quantite')[ $key]]);
+        $commande = new Commande();
+        $commande->clients_id = $request->clients_id;
+        $commande->date = $request->date;
+        $commande->save();
 
-            // Mettre à jour la quantité du produit
-            $produit = Produit::find($produitId);
-            $produit->quantite -= $request->input('quantite')[ $key];
-            $produit->save();
+        foreach ($request->products as $product) {
+            $commande->produits()->attach($product['nom'], ['quantite' => $product['quantite']]);
         }
 
-        return redirect()->route('commande.index')->with('success', 'Commande enregistrée avec succès');
+        return redirect()->route('commande.index')->with('success', 'Commande ajoutée avec succès.');
     }
+
 
 
 

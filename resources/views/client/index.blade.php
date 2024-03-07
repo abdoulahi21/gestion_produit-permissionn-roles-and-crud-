@@ -7,12 +7,15 @@
             <input type="file" name="file" class="form-control">
             <br>
             <button class="btn btn-success">Import Client Data</button>
+        </form>
         <div class="card-header">Clients List</div>
         <div class="card-body">
             @can('create-clients')
                 <a href="{{ route('client.create') }}" class="btn btn-success btn-sm my-2"><i class="bi bi-plus-circle"></i> Add New Client</a>
             @endcan
-                <a class="btn btn-warning float-end" href="{{ route('client.export') }}">Export Client Data</a>
+                <a class="btn btn-warning float-end" href="{{ route('client.export') }}">Export Client Excel Data</a>
+                <a class="btn btn-secondary float-end" href="{{ route('client.downloadPDF-pdf') }}">Export Client PDF Data</a>
+
             <table class="table table-striped table-bordered">
                 <thead>
                 <tr>
