@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\Commande;
 use App\Models\Produit;
 use App\Models\ProduitCommande;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class CommandesController extends Controller
@@ -71,16 +72,37 @@ class CommandesController extends Controller
 
         return redirect()->route('commande.index')->with('success', 'Commande ajoutée avec succès.');
     }
+    public function downloadPDF(string $id)
+    {
+        $commande= Commande::find($id);
 
+        $pdf = PDF::loadView('commande.viewPdf', array('commande' =>  $commande))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->download('commandes-details.pdf');
+    }
+    public function viewPDF(string $id)
+    {
+        $commande = Commande::find($id);
+
+        $pdf = PDF::loadView('commande.viewPdf', array('commande' =>  $commande))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->stream();
+
+    }
 
 
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Commande $commande)
     {
         //
+        return view('commande.viewPdf', [
+            'commande' => $commande
+        ]);
     }
 
     /**
@@ -89,16 +111,36 @@ class CommandesController extends Controller
     public function edit(string $id)
     {
         //
+        $produits=Produit::all();
+        $clients=Client::all();
+        $commande=Commande::find($id);
+        return view('commande.edit', [
+            'commande' => $commande,
+            'clients'=>$clients,
+            'produits'=>$produits
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CommandeRequest $request, $id)
     {
-        //
+        // Récupérer la commande à modifier
+        $commande = Commande::findOrFail($id);
 
-    }
+        // Mettre à jour les données de la commande
+        $commande->client_id = $request->input('client_id');
+        $commande->date = $request->input('date');
+        $commande->save();
+
+        // Mettre à jour les quantités des produits dans la commande
+        foreach ($request->input('quantites') as $produitId => $quantite) {
+            $commande->produits()->updateExistingPivot($produitId, ['quantite' => $quantite]);
+        }
+
+        return redirect()->route('commande.index')->with('success', 'La commande a été modifiée avec');
+}
 
     /**
      * Remove the specified resource from storage.

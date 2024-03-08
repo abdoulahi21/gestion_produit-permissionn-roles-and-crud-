@@ -31,8 +31,6 @@
             text-align: left;
             font-size: 18px;
         }
-
-
     </style>
 
 </head>
@@ -47,7 +45,6 @@
         <h1>All Clients Details</h1>
     </div>
 </div>
-
 <table style="position: relative; top: 50px;">
     <thead>
     <tr>
@@ -60,15 +57,13 @@
     <tbody>
     @foreach ($clients as $client)
         <tr>
-            <td data-column="First Name">{{ $client->nom }}{{ $client->prenom }}</td>
-            <td data-column="Last Name">{{ $client->adresse }}</td>
-            <td data-column="Last Name">{{ $client->numeroTelephone }}</td>
-            <td data-column="Last Name">{{ $client->sexe }}</td>
+            <td data-column="Full Name">{{ $client->nom }}{{ $client->prenom }}</td>
+            <td data-column="Adresse">{{ $client->adresse }}</td>
+            <td data-column="Telephone">{{ $client->numeroTelephone }}</td>
+            <td data-column="Sexe">{{ $client->sexe }}</td>
         </tr>
     @endforeach
     </tbody>
 </table>
-
 </body>
-
 </html>

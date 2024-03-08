@@ -41,7 +41,9 @@
             @can('delete-commandes')
                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Voulez-vous supprimer cette commande ?');"><i class="bi bi-trash"></i> Supprimer</button>
             @endcan
+            <a href="{{route('commande.show',$commande->id)}}">voir</a>
         </form>
+
         <hr>
     @endforeach
 
